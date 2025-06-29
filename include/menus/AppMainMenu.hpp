@@ -4,16 +4,18 @@
 
 #pragma once
 #include "menus/AppMenu.hpp"
-#include "core/Application.hpp"
+
 
 class AppMainMenu : public AppMenu
 {
 public:
-	AppMainMenu(Application* const app);
+	AppMainMenu(class Application* const app);
 	~AppMainMenu();
 
-	void BuildAndRun() override;
+	
 private:
+	void BuildAndRun() override;
+
 	//Creates a Menu and handle Menu Event
 	ftxui::Component CreateMenuLayout(ftxui::Component& menu);
 

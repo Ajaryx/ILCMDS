@@ -3,7 +3,8 @@
 // Licensed under the MIT License. See LICENSE file in the project root.
 
 #pragma once
-#include "core/Application.hpp"
+
+class Application;
 
 class AppMenu abstract
 {
@@ -15,7 +16,7 @@ public:
 
 protected:
 	
-	Application* GetApplication()
+	inline Application* const GetApplication()
 	{
 		return m_app;
 	}

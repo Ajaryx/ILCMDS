@@ -17,8 +17,10 @@ Application::~Application()
 }
 void Application::Run()
 {
-	AppMainMenu menu(this);
-	menu.BuildAndRun();
+	AppMenu* menu = new AppMainMenu(this);
+	menu->BuildAndRun();
+	delete menu;
+	menu = nullptr;
 }
 void Application::drawUI(Component& comp)
 {

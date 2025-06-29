@@ -5,6 +5,8 @@
 
 #include "PCH.hpp"
 #include "menus/AppMainMenu.hpp"
+#include "menus/AppAddCommandMenu.hpp"
+#include "core/Application.hpp"
 
 using namespace ftxui;
 
@@ -32,7 +34,9 @@ void AppMainMenu::BuildAndRun()
 			return vbox(
 				{
 
-					paragraph(logo) | color(Color::Green) | border | hcenter,
+					vbox({
+						hbox({text("Main Menu") | underlined | bold | borderHeavy}),
+						vbox({paragraph(logo) | color(Color::Green) | border | hcenter})}),
 					filler() | size(HEIGHT, EQUAL, 2),
 					separator(),
 					filler() | size(HEIGHT, EQUAL, 2),
@@ -40,7 +44,8 @@ void AppMainMenu::BuildAndRun()
 					menu->Render(),
 					filler() | size(HEIGHT, EQUAL, 9),
 					
-					hbox({text("Arrow keys left right or tab to navigate. Enter for confirm") | borderDashed, filler(), text("version 0.1.0") | borderDashed | color(Color::Grey27) | align_right,}) | xflex
+					hbox({text("Arrow keys left right or tab to navigate. Enter to confirm") | borderDashed, filler(), 
+						text("version 0.1.0") | borderDashed | color(Color::Grey27) | align_right,}) | xflex
 					
 
 				});
@@ -59,26 +64,35 @@ Component AppMainMenu::CreateMenuLayout(Component& menu)
 
 	menu = Menu(entries, &m_MenuSelected, menuOpt);
 	
-
+	
 	menu |= CatchEvent([&](Event evt)
 		{
 			if (evt == Event::Return)
 			{
+				
 				switch (m_MenuSelected)
 				{
+					//List Commands
 					case 0:
-						GetApplication()->BreakCurrentLoop();
+						
 						break;
-
+						//Add Commands
 					case 1:
-
+					{
+						AppMenu* appMenu = new AppAddCommandMenu(GetApplication());
+						appMenu->BuildAndRun();
+						delete appMenu;
+						appMenu = nullptr;
+					}
+						
 						break;
-
+						//Edit Commands
 					case 2:
 
 						break;
 				}
 				
+
 				return true;
 			}
 			return false;
