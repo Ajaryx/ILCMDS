@@ -31,22 +31,21 @@ void AppMainMenu::BuildAndRun()
 		{
 			return vbox(
 				{
-					hbox({
-						paragraph(logo)
 
-					}) | border | hcenter,
+					paragraph(logo) | color(Color::Green) | border | hcenter,
+					filler() | size(HEIGHT, EQUAL, 2),
+					separator(),
+					filler() | size(HEIGHT, EQUAL, 2),
 					
-					filler() | size(HEIGHT, GREATER_THAN, 5),
+					menu->Render(),
+					filler() | size(HEIGHT, EQUAL, 9),
+					
+					hbox({text("Arrow keys left right or tab to navigate. Enter for confirm") | borderDashed, filler(), text("version 0.1.0") | borderDashed | color(Color::Grey27) | align_right,}) | xflex
+					
 
-					vbox({
-							menu->Render(),
-						
-						}),
+				});
 
-					filler() | size(HEIGHT, GREATER_THAN, 5),
-						text("version 0.1.0") | align_right
-
-				}) | flex_grow;
+				
 		});
 
 
@@ -54,10 +53,12 @@ void AppMainMenu::BuildAndRun()
 }
 Component AppMainMenu::CreateMenuLayout(Component& menu)
 {
-	MenuOption options;
-	options.entries = std::vector<std::string>({"List Commands", "Add Commands"});
+	auto entries = std::vector<std::string>({ "List Commands", "Add Commands", "Edit Commands", "[MORE OPTIONS WILL COME]"});
+	MenuOption menuOpt = MenuOption::HorizontalAnimated();
 	
-	menu = Menu(options);
+
+	menu = Menu(entries, &m_MenuSelected, menuOpt);
+	
 
 	menu |= CatchEvent([&](Event evt)
 		{
@@ -72,6 +73,10 @@ Component AppMainMenu::CreateMenuLayout(Component& menu)
 					case 1:
 
 						break;
+
+					case 2:
+
+						break;
 				}
 				
 				return true;
@@ -83,7 +88,7 @@ Component AppMainMenu::CreateMenuLayout(Component& menu)
 
 		return vbox(
 			{
-				menu->Render()
+				menu->Render(),
 			});
 		});
 

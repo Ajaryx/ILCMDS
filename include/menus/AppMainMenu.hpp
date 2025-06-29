@@ -14,6 +14,7 @@ public:
 
 	void BuildAndRun() override;
 private:
+	//Creates a Menu and handle Menu Event
 	ftxui::Component CreateMenuLayout(ftxui::Component& menu);
 
 	int m_MenuSelected = 0;
