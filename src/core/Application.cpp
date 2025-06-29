@@ -4,12 +4,27 @@
 
 #include "PCH.hpp"
 #include "core/Application.hpp"
+#include "menus/AppMainMenu.hpp"
 
-Application::Application()
+using namespace ftxui;
+Application::Application() : m_Screen(ScreenInteractive::TerminalOutput())
 {
 	
 }
 
 Application::~Application()
 {
+}
+void Application::Run()
+{
+	AppMainMenu menu(this);
+	menu.BuildAndRun();
+}
+void Application::drawUI(Component& comp)
+{
+	m_Screen.Loop(comp);
+}
+void Application::BreakCurrentLoop()
+{
+	m_Screen.Exit();
 }

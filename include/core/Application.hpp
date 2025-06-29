@@ -11,7 +11,12 @@ public:
 	Application();
 	~Application();
 
+
+	void Run();
+	void drawUI(ftxui::Component& comp);
+	void BreakCurrentLoop();
 private:
 
-
+	ftxui::ScreenInteractive m_Screen;
+	
 };

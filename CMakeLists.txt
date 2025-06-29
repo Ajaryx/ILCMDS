@@ -24,7 +24,7 @@ set(PROJ_EXE "ILCMDS")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 
-add_executable(${PROJ_EXE} "src/main.cpp" "src/core/Application.cpp")
+add_executable(${PROJ_EXE} "src/main.cpp" "src/core/Application.cpp"  "src/menus/AppMenu.cpp" "src/menus/AppMainMenu.cpp")
 target_link_libraries(${PROJ_EXE} PRIVATE ftxui::screen ftxui::dom ftxui::component)
 
 
