@@ -33,6 +33,7 @@ void AppAddCommandMenu::BuildAndRun()
 		{
 			return vbox({
 
+				hbox({text("Add Command Menu") | underlined, }),
 				inputBars->Render(),
 
 				});

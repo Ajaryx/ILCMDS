@@ -36,16 +36,16 @@ void AppMainMenu::BuildAndRun()
 
 					vbox({
 						hbox({text("Main Menu") | underlined | bold | borderHeavy}),
-						vbox({paragraph(logo) | color(Color::Green) | border | hcenter})}),
+						vbox({paragraph(PROJ_LOGO) | color(Color::Green) | border | hcenter})}),
 					filler() | size(HEIGHT, EQUAL, 2),
 					separator(),
 					filler() | size(HEIGHT, EQUAL, 2),
 					
 					menu->Render(),
-					filler() | size(HEIGHT, EQUAL, 9),
+					filler() | size(HEIGHT, EQUAL, 8),
 					
 					hbox({text("Arrow keys left right or tab to navigate. Enter to confirm") | borderDashed, filler(), 
-						text("version 0.1.0") | borderDashed | color(Color::Grey27) | align_right,}) | xflex
+						text("version:" + std::string(PROJ_VERSION)) | borderDashed | color(Color::Grey27) | align_right,}) | xflex
 					
 
 				});

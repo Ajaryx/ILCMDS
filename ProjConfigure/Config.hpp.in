@@ -1,0 +1,12 @@
+#pragma once
+
+constexpr const char* PROJ_VERSION = "@PROJECT_VERSION@";
+
+constexpr const char* PROJ_LOGO = R"( 
+
+  ___ _     ____ __  __ ____  ____  
+ |_ _| |   / ___|  \/  |  _ \/ ___| 
+  | || |  | |   | |\/| | | | \___ \ 
+  | || |__| |___| |  | | |_| |___) |
+ |___|_____\____|_|  |_|____/|____/ 
+                                    )";

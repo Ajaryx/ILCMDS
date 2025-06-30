@@ -24,12 +24,13 @@ set(PROJ_EXE "ILCMDS")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 
-add_executable(${PROJ_EXE} "src/main.cpp" "src/core/Application.cpp"  "src/menus/AppMenu.cpp" "src/menus/AppMainMenu.cpp")
+add_executable(${PROJ_EXE} "src/main.cpp" "src/core/Application.cpp")
 target_link_libraries(${PROJ_EXE} PRIVATE ftxui::screen ftxui::dom ftxui::component)
 
 
-target_include_directories(${PROJ_EXE} PRIVATE "./include")
+target_include_directories(${PROJ_EXE} PRIVATE "./include" "${CMAKE_BINARY_DIR}/config_files/")
 target_precompile_headers(${PROJ_EXE} PRIVATE "./include/PCH.hpp")
 
+add_subdirectory(ProjConfigure)
 add_subdirectory(src)
 
