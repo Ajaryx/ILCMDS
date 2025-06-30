@@ -19,24 +19,40 @@ AppAddCommandMenu::~AppAddCommandMenu()
 
 void AppAddCommandMenu::BuildAndRun()
 {
+	//comp defines
 	Component inputContainer;
 	Component input_CMD_NameBar;
 	Component input_CMD_StrBar;
 	Component input_CMD_Bar;
 	Component input_CMD_Desc_Bar;
+	Component btn = Button("Confirm", []() {});
 	
+	//build
 	Component inputBars = BuildUserInputsLayout(inputContainer, input_CMD_NameBar, input_CMD_StrBar, input_CMD_Bar, input_CMD_Desc_Bar);
+
 
 	Component combinedContainer = Container::Vertical({ inputContainer });
 
 	Component combinedLayout = Renderer(combinedContainer, [&]() 
 		{
-			return vbox({
+			return hbox({
 
-				hbox({text("Add Command Menu") | underlined, }),
-				inputBars->Render(),
+				vbox({
+					vbox({paragraph(PROJ_LOGO) | color(Color::Green)}) | border,
+					filler(),
+					hbox({text("Add Command Menu") | underlined | bold | border | hcenter})}) ,
+					filler(),
+					separator(),
+					filler(),
+				vbox({
+				inputBars->Render() | border,
+					filler(),
+					btn->Render(),
+				}),
+				
+			
 
-				});
+				}) | flex;
 		});
 
 
@@ -75,10 +91,13 @@ ftxui::Component AppAddCommandMenu::BuildUserInputsLayout(
 		{
 			return vbox
 			({
-				NameBar->Render(),
-				cmdStrBar->Render(),
-				cmdType->Render(),
-				cmdDescBar->Render(),
+				hbox({text("Type the command name (e.g. mkdir):") | underlined}),  filler() | size(HEIGHT, EQUAL, 1), NameBar->Render(),
+				separator(),
+				hbox({text("Type the command str (e.g. mkdir build):") | underlined}), filler() | size(HEIGHT, EQUAL, 1), cmdStrBar->Render(),
+				separator(),
+				hbox({text("Type the command type (e.g. Terminal, CMD):") | underlined}), filler() | size(HEIGHT, EQUAL, 1), cmdType->Render(),
+				separator(),
+				hbox({text("Type the command Desc (e.g. creates a directory):") | underlined}), filler() | size(HEIGHT, EQUAL, 1), cmdDescBar->Render(),
 			});
 
 		});
@@ -121,30 +140,30 @@ void AppAddCommandMenu::MakeInputBarOptions(
 	//OnChange funcs
 	NameOpt.on_change = [&]()
 		{
-			if (CMD_NameStr.length() > maxNameStr)
+			if (CMD_NameStr.length() > maxCharacterLenght)
 			{
-				CMD_NameStr.resize(maxNameStr);
+				CMD_NameStr.resize(maxCharacterLenght);
 			}
 		};
 	cmdStrOpt.on_change = [&]()
 		{
-			if (CMD_Str_Str.length() > MaxCMD_Str_Str)
+			if (CMD_Str_Str.length() > maxCharacterLenght)
 			{
-				CMD_Str_Str.resize(MaxCMD_Str_Str);
+				CMD_Str_Str.resize(maxCharacterLenght);
 			}
 		};
 	cmdTypeOpt.on_change = [&]()
 		{
-			if (CMD_TypeStr.length() > maxTypeStr)
+			if (CMD_TypeStr.length() > maxCharacterLenght)
 			{
-				CMD_TypeStr.resize(maxTypeStr);
+				CMD_TypeStr.resize(maxCharacterLenght);
 			}
 		};
 	cmdDescBarOpt.on_change = [&]()
 		{
-			if (CMD_DescStr.length() > maxDescStr)
+			if (CMD_DescStr.length() > maxCharacterLenght)
 			{
-				CMD_DescStr.resize(maxDescStr);
+				CMD_DescStr.resize(maxCharacterLenght);
 			}
 		};
 

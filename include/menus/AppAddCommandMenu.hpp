@@ -36,8 +36,5 @@ private:
 	std::string CMD_TypeStr = "";
 	std::string CMD_DescStr = "";
 
-	const uint8_t maxNameStr = 10;
-	const uint8_t MaxCMD_Str_Str = 255;
-	const uint8_t maxTypeStr = 8;
-	const uint8_t maxDescStr = 255;
+	const uint8_t maxCharacterLenght = 255;
 };
