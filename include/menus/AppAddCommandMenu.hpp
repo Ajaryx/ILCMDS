@@ -15,4 +15,29 @@ private:
 
 	// Inherited via AppMenu
 	void BuildAndRun() override;
+
+	//build CMD Name | CMD commandStr | CMD TYPE | CMD description -input bar
+	ftxui::Component BuildUserInputsLayout(
+	ftxui::Component& container,
+	ftxui::Component& NameBar,
+	ftxui::Component& cmdStrBar,
+	ftxui::Component& cmdType,
+	ftxui::Component& cmdDescBar);
+
+
+	void MakeInputBarOptions(
+		ftxui::InputOption& NameOpt,
+		ftxui::InputOption& cmdStrOpt,
+		ftxui::InputOption& cmdTypeOpt,
+		ftxui::InputOption& cmdDescBarOpt);
+
+	std::string CMD_NameStr = "";
+	std::string CMD_Str_Str = "";
+	std::string CMD_TypeStr = "";
+	std::string CMD_DescStr = "";
+
+	const uint8_t maxNameStr = 10;
+	const uint8_t MaxCMD_Str_Str = 255;
+	const uint8_t maxTypeStr = 8;
+	const uint8_t maxDescStr = 255;
 };
