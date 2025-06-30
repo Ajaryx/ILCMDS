@@ -24,7 +24,7 @@ private:
 	ftxui::Component& cmdType,
 	ftxui::Component& cmdDescBar);
 
-
+	
 	void MakeInputBarOptions(
 		ftxui::InputOption& NameOpt,
 		ftxui::InputOption& cmdStrOpt,

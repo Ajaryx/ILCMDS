@@ -61,40 +61,7 @@ ftxui::Component AppAddCommandMenu::BuildUserInputsLayout(
 		cmdTypeOpt,
 		cmdDescOpt);
 
-
-
-
-	//OnChange funcs
-	NameBarOpt.on_change = [&]()
-		{
-			if (CMD_NameStr.length() > maxNameStr)
-			{
-				CMD_NameStr.resize(maxNameStr);
-			}
-		};
-	cmdStrOpt.on_change = [&]()
-		{
-			if (CMD_Str_Str.length() > MaxCMD_Str_Str)
-			{
-				CMD_Str_Str.resize(MaxCMD_Str_Str);
-			}
-		};
-	cmdTypeOpt.on_change = [&]()
-		{
-			if (CMD_TypeStr.length() > maxTypeStr)
-			{
-				CMD_TypeStr.resize(maxTypeStr);
-			}
-		};
-	cmdDescOpt.on_change = [&]()
-		{
-			if (CMD_DescStr.length() > maxDescStr)
-			{
-				CMD_DescStr.resize(maxDescStr);
-			}
-		};
-
-
+	
 	NameBar = Input(NameBarOpt);
 	cmdStrBar = Input(cmdStrOpt);
 	cmdType = Input(cmdTypeOpt);
@@ -137,12 +104,49 @@ void AppAddCommandMenu::MakeInputBarOptions(
 	cmdTypeOpt.placeholder = "Command type";
 	cmdDescBarOpt.placeholder = "Command Description";
 
+	//enable/disable multilines
+	NameOpt.multiline = false;
+	cmdStrOpt.multiline = true;
+	cmdTypeOpt.multiline = false;
+	cmdDescBarOpt.multiline = true;
+
 
 	//set strings
 	NameOpt.content = &CMD_NameStr;
 	cmdStrOpt.content = &CMD_Str_Str;
 	cmdTypeOpt.content = &CMD_TypeStr;
 	cmdDescBarOpt.content = &CMD_DescStr;
+	
+	//OnChange funcs
+	NameOpt.on_change = [&]()
+		{
+			if (CMD_NameStr.length() > maxNameStr)
+			{
+				CMD_NameStr.resize(maxNameStr);
+			}
+		};
+	cmdStrOpt.on_change = [&]()
+		{
+			if (CMD_Str_Str.length() > MaxCMD_Str_Str)
+			{
+				CMD_Str_Str.resize(MaxCMD_Str_Str);
+			}
+		};
+	cmdTypeOpt.on_change = [&]()
+		{
+			if (CMD_TypeStr.length() > maxTypeStr)
+			{
+				CMD_TypeStr.resize(maxTypeStr);
+			}
+		};
+	cmdDescBarOpt.on_change = [&]()
+		{
+			if (CMD_DescStr.length() > maxDescStr)
+			{
+				CMD_DescStr.resize(maxDescStr);
+			}
+		};
+
 
 	//...
 
