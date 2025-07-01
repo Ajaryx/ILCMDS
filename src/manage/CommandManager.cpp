@@ -30,7 +30,6 @@ void from_json(const json& j, Command& command)
 
 }
 
-
 /*-----------------------------------------------------------------*/
 CommandManager::CommandManager()
 {

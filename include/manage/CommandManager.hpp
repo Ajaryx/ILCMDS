@@ -19,7 +19,6 @@ public:
 		const std::string& type,
 		const std::string& description);
 
-
 private:
 	bool LoadAllCommands();
 	void SaveAllCommands();

@@ -27,14 +27,14 @@ public:
 	{
 		return m_description;
 	}
-	
+
 
 	std::string m_cmdName;
 	std::string m_commandStr;
 	std::string m_commandType;
 	std::string m_description;
 
-
+	
 	
 
 };
