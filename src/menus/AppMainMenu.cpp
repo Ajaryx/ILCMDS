@@ -45,9 +45,8 @@ void AppMainMenu::BuildAndRun()
 					filler() | size(HEIGHT, EQUAL, 8),
 					
 					hbox({text("Arrow keys left right or tab to navigate. Enter to confirm") | borderDashed, filler(), 
-						text("version:" + std::string(PROJ_VERSION)) | borderDashed | color(Color::Grey27) | align_right,}) | xflex
+						text(PROJ_VERSION) | borderDashed | color(Color::Grey27) | align_right})
 					
-
 				});
 
 				

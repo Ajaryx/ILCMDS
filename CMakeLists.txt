@@ -8,6 +8,10 @@ LANGUAGES CXX)
 # Global Project Settings
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+option(ARCH_X64 "Compile this program in 64 bit" OFF)
+option(ARCH_X86 "Compile this program in 32 bit" ON)
+
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 include(FetchContent)
 
@@ -26,6 +30,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 add_executable(${PROJ_EXE} "src/main.cpp" "src/core/Application.cpp")
 target_link_libraries(${PROJ_EXE} PRIVATE ftxui::screen ftxui::dom ftxui::component)
+
 
 
 target_include_directories(${PROJ_EXE} PRIVATE "./include" "${CMAKE_BINARY_DIR}/config_files/")

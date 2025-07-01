@@ -25,34 +25,37 @@ void AppAddCommandMenu::BuildAndRun()
 	Component input_CMD_StrBar;
 	Component input_CMD_Bar;
 	Component input_CMD_Desc_Bar;
-	Component btn = Button("Confirm", []() {});
+
+	Component btnContainer;
+	Component confirmButton;
+	Component backButton;
 	
 	//build
 	Component inputBars = BuildUserInputsLayout(inputContainer, input_CMD_NameBar, input_CMD_StrBar, input_CMD_Bar, input_CMD_Desc_Bar);
+	Component buttons = BuildBottomBtnsLayout(btnContainer, confirmButton, backButton);
 
-
-	Component combinedContainer = Container::Vertical({ inputContainer });
+	Component combinedContainer = Container::Vertical({ inputContainer, buttons });
 
 	Component combinedLayout = Renderer(combinedContainer, [&]() 
 		{
-			return hbox({
+			return vbox({
+
+
+					vbox({text("Add Command Menu") | underlined | bold | border}) | hcenter ,
+
 
 				vbox({
-					vbox({paragraph(PROJ_LOGO) | color(Color::Green)}) | border,
-					filler(),
-					hbox({text("Add Command Menu") | underlined | bold | border | hcenter})}) ,
-					filler(),
-					separator(),
-					filler(),
-				vbox({
-				inputBars->Render() | border,
-					filler(),
-					btn->Render(),
+					inputBars->Render() | border,
+
+					
 				}),
+				separator(),
+				buttons->Render(),
 				
-			
+				filler() | size(HEIGHT, GREATER_THAN, 4),
+				text(PROJ_VERSION) | borderDashed | color(Color::Grey27) | align_right
 
-				}) | flex;
+				});
 		});
 
 
@@ -167,6 +170,45 @@ void AppAddCommandMenu::MakeInputBarOptions(
 			}
 		};
 
+	//...
+}
+
+ftxui::Component AppAddCommandMenu::BuildBottomBtnsLayout(ftxui::Component& container, ftxui::Component& confirmBtn, ftxui::Component& backBtn)
+{
+	ButtonOption confirmBtnOpt;
+	ButtonOption backBtnOpt;
+
+	MakeBtnOptions(confirmBtnOpt, backBtnOpt);
+
+
+	confirmBtn = Button(confirmBtnOpt);
+	backBtn = Button(backBtnOpt);
+
+	container = Container::Horizontal({ confirmBtn, backBtn });
+
+
+
+
+	Component combinedBtnLayout = Renderer(container, [&]() 
+		{
+			return hbox({
+
+					backBtn->Render() | size(WIDTH, GREATER_THAN, 100),
+					filler(),
+					confirmBtn->Render() | size(WIDTH, GREATER_THAN, 100),
+				});
+		
+		});
+
+	return combinedBtnLayout;
+}
+void AppAddCommandMenu::MakeBtnOptions(ftxui::ButtonOption& confirmBtn, ftxui::ButtonOption& backBtn)
+{
+	confirmBtn = ButtonOption::Ascii();
+	backBtn = ButtonOption::Ascii();
+
+	confirmBtn.label = "Confirm";
+	backBtn.label = "Back";
 
 	//...
 

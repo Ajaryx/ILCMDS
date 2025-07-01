@@ -31,6 +31,9 @@ private:
 		ftxui::InputOption& cmdTypeOpt,
 		ftxui::InputOption& cmdDescBarOpt);
 
+	ftxui::Component BuildBottomBtnsLayout(ftxui::Component& container, ftxui::Component& confirmBtn, ftxui::Component& backBtn);
+	void MakeBtnOptions(ftxui::ButtonOption& confirmBtn, ftxui::ButtonOption& backBtn);
+
 	std::string CMD_NameStr = "";
 	std::string CMD_Str_Str = "";
 	std::string CMD_TypeStr = "";
