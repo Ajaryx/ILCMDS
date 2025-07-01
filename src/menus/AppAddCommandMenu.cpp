@@ -10,7 +10,7 @@ using namespace ftxui;
 
 AppAddCommandMenu::AppAddCommandMenu(Application* const app) : AppMenu(app)
 {
-
+	cmdManager.Init();
 }
 AppAddCommandMenu::~AppAddCommandMenu()
 {
@@ -40,14 +40,11 @@ void AppAddCommandMenu::BuildAndRun()
 		{
 			return vbox({
 
-
 					vbox({text("Add Command Menu") | underlined | bold | border}) | hcenter ,
-
 
 				vbox({
 					inputBars->Render() | border,
 
-					
 				}),
 				separator(),
 				buttons->Render(),
@@ -186,9 +183,6 @@ ftxui::Component AppAddCommandMenu::BuildBottomBtnsLayout(ftxui::Component& cont
 
 	container = Container::Horizontal({ confirmBtn, backBtn });
 
-
-
-
 	Component combinedBtnLayout = Renderer(container, [&]() 
 		{
 			return hbox({
@@ -197,7 +191,6 @@ ftxui::Component AppAddCommandMenu::BuildBottomBtnsLayout(ftxui::Component& cont
 					filler(),
 					confirmBtn->Render() | size(WIDTH, GREATER_THAN, 100),
 				});
-		
 		});
 
 	return combinedBtnLayout;
@@ -210,6 +203,22 @@ void AppAddCommandMenu::MakeBtnOptions(ftxui::ButtonOption& confirmBtn, ftxui::B
 	confirmBtn.label = "Confirm";
 	backBtn.label = "Back";
 
+
+	confirmBtn.on_click = [&]() 
+	{
+			SetNewCommand();
+	};
+
+	backBtn.on_click = [&]()
+	{
+			GetApplication()->BreakCurrentLoop();
+	};
+
+
 	//...
 
+}
+void AppAddCommandMenu::SetNewCommand()
+{
+	cmdManager.Add(CMD_NameStr, CMD_Str_Str, CMD_TypeStr, CMD_DescStr);
 }

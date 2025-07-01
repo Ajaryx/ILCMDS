@@ -7,9 +7,9 @@
 class Command
 {
 public:
-	Command(const std::string& cmdName, const std::string& commandStr, const std::string& type, const std::string& description);
+	Command(const std::string& cmdName, const std::string& commandStr, const std::string& m_commandType, const std::string& description);
 	~Command();
-
+	Command() = default;
 
 	inline std::string Get_CMD_Name() const
 	{
@@ -21,18 +21,20 @@ public:
 	}
 	inline std::string Get_CMD_Type() const
 	{
-		return m_type;
+		return m_commandType;
 	}
 	inline std::string Get_CMD_Description() const
 	{
 		return m_description;
 	}
-
-private:
+	
 
 	std::string m_cmdName;
 	std::string m_commandStr;
-	std::string m_type; 
+	std::string m_commandType;
 	std::string m_description;
+
+
+	
 
 };

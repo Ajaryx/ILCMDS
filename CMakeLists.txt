@@ -23,13 +23,23 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(FTXUI)
 
+FetchContent_Declare(
+	nlohmann/json
+	GIT_REPOSITORY https://github.com/nlohmann/json
+	GIT_TAG v3.12.0
+	GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(nlohmann/json)
+
+
+
 #Project variables
 set(PROJ_EXE "ILCMDS")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 
 add_executable(${PROJ_EXE} "src/main.cpp" "src/core/Application.cpp")
-target_link_libraries(${PROJ_EXE} PRIVATE ftxui::screen ftxui::dom ftxui::component)
+target_link_libraries(${PROJ_EXE} PRIVATE ftxui::screen ftxui::dom ftxui::component nlohmann_json::nlohmann_json)
 
 
 

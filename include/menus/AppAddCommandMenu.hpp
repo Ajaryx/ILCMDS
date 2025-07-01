@@ -4,7 +4,7 @@
 
 #pragma once
 #include "menus/AppMenu.hpp"
-
+#include "manage/CommandManager.hpp"
 
 class AppAddCommandMenu : public AppMenu
 {
@@ -12,6 +12,7 @@ public:
 	AppAddCommandMenu(class Application* const app);
 	~AppAddCommandMenu();
 private:
+	CommandManager cmdManager;
 
 	// Inherited via AppMenu
 	void BuildAndRun() override;
@@ -40,4 +41,6 @@ private:
 	std::string CMD_DescStr = "";
 
 	const uint8_t maxCharacterLenght = 255;
+
+	void SetNewCommand();
 };

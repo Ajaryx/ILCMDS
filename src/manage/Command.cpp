@@ -5,11 +5,11 @@
 #include "PCH.hpp"
 #include "manage/Command.hpp"
 
-Command::Command(const std::string& cmdName, const std::string& commandStr, const std::string& type, const std::string& description)
+Command::Command(const std::string& cmdName, const std::string& commandStr, const std::string& m_commandType, const std::string& description)
 {
 	this->m_cmdName = cmdName;
 	this->m_commandStr = commandStr;
-	this->m_type = type;
+	this->m_commandType = m_commandType;
 	this->m_description = description;
 
 }
