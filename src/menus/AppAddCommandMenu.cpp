@@ -206,12 +206,12 @@ void AppAddCommandMenu::MakeBtnOptions(ftxui::ButtonOption& confirmBtn, ftxui::B
 
 	confirmBtn.on_click = [&]() 
 	{
-			SetNewCommand();
+		SetNewCommand();
 	};
 
 	backBtn.on_click = [&]()
 	{
-			GetApplication()->BreakCurrentLoop();
+		GetApplication()->BreakCurrentLoop();
 	};
 
 

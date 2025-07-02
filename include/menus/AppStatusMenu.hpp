@@ -6,21 +6,31 @@
 #pragma once
 #include "menus/AppMenu.hpp"
 
-struct AppStatusMenuLayoutOption
+struct AppStatusMenuLayoutBuilder
 {
-	static AppStatusMenuLayoutOption Info(const std::string& headline,
+	static AppStatusMenuLayoutBuilder Info(const std::string& headline,
 		const std::string& description,
-		const std::string& btnText);
+		std::function<void()> on_click = []() {});
 
-	static AppStatusMenuLayoutOption Warning(const std::string& headline,
+	static AppStatusMenuLayoutBuilder Warning(const std::string& headline,
 		const std::string& description,
-		const std::string& btnText);
+		std::function<void()> on_click = []() {});
 
-	static AppStatusMenuLayoutOption FatalError(const std::string& headline,
+	static AppStatusMenuLayoutBuilder FatalError(const std::string& headline,
 		const std::string& description,
-		const std::string& btnText,
-		std::function<void()> on_click);
-	static AppStatusMenuLayoutOption Choose();
+		std::function<void()> on_click = []() {});
+
+	static AppStatusMenuLayoutBuilder Choose(const std::string& headline,
+		const std::string& description,
+		std::function<void()> on_click_Yes = [](){},
+		std::function<void()> on_click_No = [](){});
+
+	std::string headline;
+	std::string description;
+
+
+	ftxui::Component layout = ftxui::Component();
+
 
 };
 
@@ -28,12 +38,14 @@ struct AppStatusMenuLayoutOption
 class AppStatusMenu : public AppMenu
 {
 public:
-	AppStatusMenu(Application* const app, const AppStatusMenuLayoutOption& layoutOption);
+	AppStatusMenu(Application* const app, const AppStatusMenuLayoutBuilder& layoutOption);
 	~AppStatusMenu();
+
+
 
 private:
 	void BuildAndRun() override;
 
-	AppStatusMenuLayoutOption m_Option;
+	AppStatusMenuLayoutBuilder m_Option;
 
 };

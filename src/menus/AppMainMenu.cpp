@@ -76,7 +76,7 @@ Component AppMainMenu::CreateMenuLayout(Component& menu)
 					case 0:
 
 					{
-						AppMenu* appMenu = new AppStatusMenu(GetApplication(), AppStatusMenuLayoutOption::FatalError("Commands List", "Here you can see all the commands that are available.", "Close", [&]() {Application::FORCE_SHUTDOWN(); }));
+						AppMenu* appMenu = new AppStatusMenu(GetApplication(), AppStatusMenuLayoutBuilder::Info("TEST", "its just a test :)", [&]() {GetApplication()->BreakCurrentLoop(); }));
 						appMenu->BuildAndRun();
 						delete appMenu;
 						appMenu = nullptr;
