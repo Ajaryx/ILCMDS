@@ -21,7 +21,7 @@ static void to_json(json& j, const Command& command)
 	
 	};
 }
-void from_json(const json& j, Command& command)
+static void from_json(const json& j, Command& command)
 {
 	j.at("commandName").get_to(command.m_cmdName);
 	j.at("command String").get_to(command.m_commandStr);
@@ -31,6 +31,7 @@ void from_json(const json& j, Command& command)
 }
 
 /*-----------------------------------------------------------------*/
+
 CommandManager::CommandManager()
 {
 	//msg log for creating new dat file for the user?

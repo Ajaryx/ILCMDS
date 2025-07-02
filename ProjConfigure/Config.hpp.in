@@ -1,6 +1,6 @@
 #pragma once
 
-constexpr const char* PROJ_VERSION = "@PROJECT_VERSION@";
+constexpr const char* PROJ_VERSION = "version: @PROJECT_VERSION@";
 
 constexpr const char* PROJ_LOGO = R"( 
 

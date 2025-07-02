@@ -55,6 +55,7 @@ void AppMainMenu::BuildAndRun()
 
 	GetApplication()->drawUI(combinedLayout);
 }
+#include "menus/AppStatusMenu.hpp"
 Component AppMainMenu::CreateMenuLayout(Component& menu)
 {
 	auto entries = std::vector<std::string>({ "List Commands", "Add Commands", "Edit Commands", "[MORE OPTIONS WILL COME]"});
@@ -73,7 +74,13 @@ Component AppMainMenu::CreateMenuLayout(Component& menu)
 				{
 					//List Commands
 					case 0:
-						
+
+					{
+						AppMenu* appMenu = new AppStatusMenu(GetApplication(), AppStatusMenuLayoutOption::FatalError("Commands List", "Here you can see all the commands that are available.", "Close", [&]() {Application::FORCE_SHUTDOWN(); }));
+						appMenu->BuildAndRun();
+						delete appMenu;
+						appMenu = nullptr;
+					}
 						break;
 						//Add Commands
 					case 1:

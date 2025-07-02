@@ -30,3 +30,7 @@ void Application::BreakCurrentLoop()
 {
 	m_Screen.Exit();
 }
+void Application::FORCE_SHUTDOWN()
+{
+	std::exit(EXIT_FAILURE);
+}

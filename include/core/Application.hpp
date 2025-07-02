@@ -15,6 +15,8 @@ public:
 	void Run();
 	void drawUI(ftxui::Component& comp);
 	void BreakCurrentLoop();
+	/*the entire app WILL be closed*/
+	static void FORCE_SHUTDOWN();
 private:
 
 	ftxui::ScreenInteractive m_Screen;
