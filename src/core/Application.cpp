@@ -7,7 +7,7 @@
 #include "menus/AppMainMenu.hpp"
 
 using namespace ftxui;
-Application::Application() : m_Screen(ScreenInteractive::TerminalOutput())
+Application::Application()
 {
 	
 }

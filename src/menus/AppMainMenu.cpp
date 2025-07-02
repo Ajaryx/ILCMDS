@@ -23,10 +23,7 @@ void AppMainMenu::BuildAndRun()
 	Component menu = Menu(std::vector<std::string>(), &m_MenuSelected);
 	Component menuComp = CreateMenuLayout(menu);
 
-	Component container = Container::Vertical(
-		{
-			menu
-		});
+	Component container = Container::Vertical({ menu });
 
 
 	Component combinedLayout = Renderer(container, [&]()
@@ -48,10 +45,7 @@ void AppMainMenu::BuildAndRun()
 						text(PROJ_VERSION) | borderDashed | color(Color::Grey27) | align_right})
 					
 				});
-
-				
 		});
-
 
 	GetApplication()->drawUI(combinedLayout);
 }
@@ -76,7 +70,7 @@ Component AppMainMenu::CreateMenuLayout(Component& menu)
 					case 0:
 
 					{
-						AppMenu* appMenu = new AppStatusMenu(GetApplication(), AppStatusMenuLayoutBuilder::Info("TEST", "its just a test :)", [&]() {GetApplication()->BreakCurrentLoop(); }));
+						AppMenu* appMenu = new AppStatusMenu(GetApplication(), AppStatusMenuLayoutBuilder::Info("TEST", "its just a test :)", [&]() { GetApplication()->BreakCurrentLoop(); }));
 						appMenu->BuildAndRun();
 						delete appMenu;
 						appMenu = nullptr;

@@ -16,13 +16,13 @@ public:
 
 protected:
 	
-	inline static Application* const GetApplication()
+	inline Application* const GetApplication()
 	{
 		return m_app;
 	}
 
 private:
 
-	 inline static Application* m_app;
+	 Application* m_app;
 	
 };
