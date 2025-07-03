@@ -70,10 +70,7 @@ Component AppMainMenu::CreateMenuLayout(Component& menu)
 					case 0:
 
 					{
-						AppMenu* appMenu = new AppStatusMenu(GetApplication(), AppStatusMenuLayoutBuilder::Warning("TEST", "its just a test :)", [&]() { GetApplication()->BreakCurrentLoop(); }));
-						appMenu->BuildAndRun();
-						delete appMenu;
-						appMenu = nullptr;
+						
 					}
 						break;
 						//Add Commands

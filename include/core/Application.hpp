@@ -8,12 +8,22 @@
 class Application
 {
 public:
-	Application();
-	~Application();
+	
+	
 
+	Application(const Application&) = delete;
+	Application(const Application&&) = delete;
+
+	Application& operator=(const Application&) = delete;
+	Application& operator=(Application&&) = delete;
+	
+	static Application& GetInstance()
+	{
+		static Application instance;
+		return instance;
+	}
 
 	void Run();
-
 
 	void drawUI(ftxui::Component& comp);
 	void BreakCurrentLoop();
@@ -23,5 +33,7 @@ public:
 private:
 
 	ftxui::ScreenInteractive m_Screen = ftxui::ScreenInteractive::TerminalOutput();
+
+	Application();
 	
 };

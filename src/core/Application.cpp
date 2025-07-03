@@ -11,10 +11,6 @@ Application::Application()
 {
 	
 }
-
-Application::~Application()
-{
-}
 void Application::Run()
 {
 	AppMenu* menu = new AppMainMenu(this);
@@ -32,5 +28,5 @@ void Application::BreakCurrentLoop()
 }
 void Application::FORCE_SHUTDOWN()
 {
-	std::exit(EXIT_FAILURE);
+	std::quick_exit(EXIT_FAILURE);
 }

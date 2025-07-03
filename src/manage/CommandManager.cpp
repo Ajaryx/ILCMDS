@@ -5,6 +5,8 @@
 #include "PCH.hpp"
 #include "manage/CommandManager.hpp"
 #include "manage/Command.hpp"
+#include "menus/AppStatusMenu.hpp"
+#include "core/Application.hpp"
 
 namespace fs = std::filesystem;
 using json = nlohmann::json;
@@ -48,11 +50,28 @@ bool CommandManager::Init()
 bool CommandManager::LoadAllCommands()
 {
 
-	std::ifstream file(m_path);
-
-	if (!file)
+	std::ifstream file;
+	file.exceptions(std::ios_base::failbit | std::ios_base::badbit);
+	try
 	{
-		//LOG: file doesnt exists or the program started the first time
+		file.open(m_path + "fe");
+	}
+	catch (const std::ios_base::failure& exc)
+	{
+		AppMenu* appMenu = new AppStatusMenu(&Application::GetInstance(), AppStatusMenuLayoutBuilder::FatalError("FATAL_FILE_LOAD_ERROR", "FILE STREAM ERROR: " +
+			std::string(std::strerror(errno)) +
+			R"(
+			The program cannot continue running because the command save file is missing. 
+			Please make sure you haven't deleted the file while the program was running. 
+			You can resolve this issue by restarting the program.)" + "\nError code: " + std::to_string(errno)
+			
+			, [&]() { Application::GetInstance().FORCE_SHUTDOWN(); }));
+
+		appMenu->BuildAndRun();
+
+		delete appMenu;
+		appMenu = nullptr;
+
 		return false;
 	}
 	json j = json::parse(file);
@@ -82,14 +101,14 @@ void CommandManager::Add(const std::string& cmdName,
 	SaveAllCommands();
 
 }
+
 void CommandManager::SaveAllCommands()
 {
 	std::ofstream file(m_path);
-	if(!file)
-	{
-		//LOG file couldnt overwritten or created
-		return;
-	}
+	file.exceptions(std::ios_base::failbit | std::ios_base::badbit);
+
+	
+	
 
 	json j = json::array();
 

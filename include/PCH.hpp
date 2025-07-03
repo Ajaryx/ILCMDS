@@ -2,7 +2,7 @@
 #include <memory>
 #include <filesystem>
 #include <fstream>
-#include <memory>
+#include <cerrno>
 
 #include <ftxui/component/component.hpp>
 #include <ftxui/screen/screen.hpp>
