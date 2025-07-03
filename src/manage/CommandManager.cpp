@@ -57,7 +57,7 @@ bool CommandManager::LoadAllCommands()
 	{
 		AppMenu* appMenu = new AppStatusMenu(&Application::GetInstance(), AppStatusMenuLayoutBuilder::Info("INFO", R"(It looks like you're running the program for the first time. 
 		The JSON data list is created for the commands. 
-		(NOTE: DO NOT DELETE THE FILE WHILE THE PROGRAM IS RUNNING, AND DO NOT OPEN THE FILE WHILE THE PROGRAM IS RUNNING.))"
+		(NOTE: DO NOT DELETE THE FILE WHILE THE PROGRAM IS RUNNING, AND DO NOT OPEN THE FILE WHILE THE PROGRAM IS RUNNING.))" + std::string("\nPATH: " + m_path)
 		,[&]() { Application::GetInstance().BreakCurrentLoop(); }));
 
 		appMenu->BuildAndRun();
@@ -131,7 +131,7 @@ bool CommandManager::CreateDataFile()
 	{
 		AppMenu* appMenu = new AppStatusMenu(&Application::GetInstance(), AppStatusMenuLayoutBuilder::FatalError("CANNOT_CREATE_FILE",
 			std::string("ERROR: " + std::string(exc.what())) + std::string("\n") + strerror(errno) + "\n" +
-			R"(THE PROGRAM HAS NO RIGHTS OR CANNOT EASILY CREATE THE FILE)"
+			R"(THE PROGRAM HAS NO RIGHTS OR CANNOT EASILY CREATE THE FILE)" + "\nPATH: " + m_path
 			+ "\nPROGRAM CANNOT CONTINUE [ABORT]" + "\nERROR CODE: " + std::to_string(errno),
 			[&]() { Application::GetInstance().FORCE_SHUTDOWN(); }));
 		appMenu->BuildAndRun();
@@ -172,13 +172,13 @@ bool CommandManager::SaveAllCommands()
 
 	try
 	{
-		file.open("C:\\");
+		file.open(m_path);
 	}
 	catch(const std::ios_base::failure& exc)
 	{
 		AppMenu* appMenu = new AppStatusMenu(&Application::GetInstance(), AppStatusMenuLayoutBuilder::Warning("CANNOT_SAVE_COMMANDS", 
 		std::string("ERROR: " + std::string(exc.what())) + R"(
-	program has no rights to write to the file)" + 
+	program has no rights to write to the file)" + "\nPATH: "+ m_path + 
 			"\nERROR CODE: " + std::to_string(errno)
 			, [&]() { Application::GetInstance().BreakCurrentLoop(); }));
 		appMenu->BuildAndRun();
