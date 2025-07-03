@@ -10,20 +10,25 @@ struct AppStatusMenuLayoutBuilder
 {
 	static AppStatusMenuLayoutBuilder Info(const std::string& headline,
 		const std::string& description,
-		std::function<void()> on_click = []() {  });
+		std::function<void()> on_click = []() {  },
+		ftxui::Color overallColor = ftxui::Color::White);
 
 	static AppStatusMenuLayoutBuilder Warning(const std::string& headline,
 		const std::string& description,
-		std::function<void()> on_click = []() {} );
+		std::function<void()> on_click = []() {},
+		ftxui::Color overallColor = ftxui::Color::Orange1);
 
 	static AppStatusMenuLayoutBuilder FatalError(const std::string& headline,
-		const std::string& description,
-		std::function<void()> on_click = []() { });
+		const std::string& overallColor,
+		std::function<void()> on_click = []() { },
+		ftxui::Color descriptionColor = ftxui::Color::Red1);
 
 	static AppStatusMenuLayoutBuilder Choose(const std::string& headline,
-		const std::string& description,
+		const std::string& overallColor,
+		
 		std::function<void()> on_click_Yes,
-		std::function<void()> on_click_No);
+		std::function<void()> on_click_No,
+		ftxui::Color descriptiooverallColornColor = ftxui::Color::White);
 
 	std::string headline;
 	std::string description;

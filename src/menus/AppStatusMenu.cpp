@@ -11,7 +11,8 @@ using namespace ftxui;
 /*-----------------Status Menu Options--------------------*/
 AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::Info(const std::string& headline,
 	const std::string& description,
-	std::function<void()> on_click)
+	std::function<void()> on_click,
+	ftxui::Color overallColor)
 {
 
 	Component btn = Button("OK", on_click);
@@ -28,12 +29,12 @@ AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::Info(const std::string& h
 		{
 			return vbox({
 				
-				text(builder.headline) | underlined| bold | center,
+				text(builder.headline) | underlined| bold | color(overallColor) | center,
 				filler() | size(HEIGHT, EQUAL, 2),
 
-				paragraphAlignCenter(builder.description) | borderHeavy | hcenter,
+				paragraphAlignCenter(builder.description) | borderHeavy | color(overallColor) | hcenter,
 				filler() | size(HEIGHT, EQUAL, 2),
-				btn->Render(),
+				btn->Render() | size(HEIGHT, EQUAL, 3),
 				
 				});
 
@@ -43,7 +44,8 @@ AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::Info(const std::string& h
 }
 AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::Warning(const std::string& headline,
 	const std::string& description,
-	std::function<void()> on_click)
+	std::function<void()> on_click,
+	ftxui::Color overallColor)
 {
 
 	Component btn = Button("OK", on_click);
@@ -62,12 +64,12 @@ AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::Warning(const std::string
 
 				text(builder.headline) | underlined | bold | center,
 				filler() | size(HEIGHT, EQUAL, 1),
-				text("WARNING") | underlined | color(Color::Orange1) | center,
+				text("WARNING") | underlined | color(overallColor) | center,
 				filler() | size(HEIGHT, EQUAL, 2),
 
-				paragraphAlignCenter(builder.description) | borderHeavy | color(Color::Orange1) | hcenter,
+				paragraphAlignCenter(builder.description) | borderHeavy | color(overallColor) | hcenter,
 				filler() | size(HEIGHT, EQUAL, 2),
-				btn->Render(),
+				btn->Render() | size(HEIGHT, EQUAL, 3),
 
 				});
 
@@ -77,7 +79,9 @@ AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::Warning(const std::string
 }
 AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::FatalError(const std::string& headline,
 	const std::string& description,
-	const std::function<void()> on_click)
+
+	const std::function<void()> on_click,
+	ftxui::Color overallColor)
 {
 	ButtonOption opt = ButtonOption::Border();
 
@@ -97,12 +101,12 @@ AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::FatalError(const std::str
 
 				text(builder.headline) | underlined | bold | center,
 				filler() | size(HEIGHT, EQUAL, 1),
-				text("FATAL ERROR") | underlined | color(Color::Red1) | center,
+				text("FATAL ERROR") | underlined | color(overallColor) | center,
 				filler() | size(HEIGHT, EQUAL, 2),
 
-				paragraphAlignCenter(builder.description) | borderHeavy | color(Color::Red1) | hcenter,
+				paragraphAlignCenter(builder.description) | borderHeavy | color(overallColor) | hcenter,
 				filler() | size(HEIGHT, EQUAL, 2),
-				btn->Render(),
+				btn->Render() | size(HEIGHT, EQUAL, 3),
 
 				});
 
@@ -113,7 +117,8 @@ AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::FatalError(const std::str
 AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::Choose(const std::string& headline,
 	const std::string& description,
 	std::function<void()> on_click_Yes,
-	std::function<void()> on_click_No)
+	std::function<void()> on_click_No,
+	ftxui::Color overallColor)
 {
 
 	Component btnYes = Button("OK", on_click_Yes);
@@ -130,15 +135,16 @@ AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::Choose(const std::string&
 		{
 			return vbox({
 
-				text(builder.headline) | underlined | bold | center,
+				text(builder.headline) | underlined | bold | color(overallColor) |center,
 				filler() | size(HEIGHT, EQUAL, 1),
 				text("CHOOSE AN OPTION") | underlined | center,
 				filler() | size(HEIGHT, EQUAL, 2),
 
-				paragraphAlignCenter(builder.description) | borderHeavy | hcenter,
+				paragraphAlignCenter(builder.description) | borderHeavy | color(overallColor) | hcenter,
 				filler() | size(HEIGHT, EQUAL, 2),
-				btnYes->Render(),
-				btnNo->Render(),
+				btnYes->Render() | size(HEIGHT, EQUAL, 3),
+				filler() | size(HEIGHT, EQUAL, 1),
+				btnNo->Render() | size(HEIGHT, EQUAL, 4),
 
 				});
 

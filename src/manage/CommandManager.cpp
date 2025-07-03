@@ -10,7 +10,7 @@
 
 namespace fs = std::filesystem;
 using json = nlohmann::json;
-
+using namespace ftxui;
 
 /*-----------------------------------------------------------------*/
 
@@ -36,8 +36,9 @@ static void from_json(const json& j, Command& command)
 
 CommandManager::CommandManager()
 {
-	//msg log for creating new dat file for the user?
-	m_path = fs::path(fs::current_path() / "data.dat").string();
+	
+	m_path = fs::path(fs::current_path() / DEFAULT_DATA_FILE_NAME).string();
+	
 }
 CommandManager::~CommandManager()
 {
@@ -49,23 +50,45 @@ bool CommandManager::Init()
 }
 bool CommandManager::LoadAllCommands()
 {
+	std::ifstream file(m_path);
+	
+	//Create data file if not created	
+	if (!file)
+	{
+		AppMenu* appMenu = new AppStatusMenu(&Application::GetInstance(), AppStatusMenuLayoutBuilder::Info("INFO", R"(It looks like you're running the program for the first time. 
+		The JSON data list is created for the commands. 
+		(NOTE: DO NOT DELETE THE FILE WHILE THE PROGRAM IS RUNNING, AND DO NOT OPEN THE FILE WHILE THE PROGRAM IS RUNNING.))"
+		,[&]() { Application::GetInstance().BreakCurrentLoop(); }));
 
-	std::ifstream file;
-	file.exceptions(std::ios_base::failbit | std::ios_base::badbit);
+		appMenu->BuildAndRun();
+
+		delete appMenu;
+		appMenu = nullptr;
+
+		//nothing to read
+		return CreateDataFile();
+	}
+	
+	
+	//return true cuz its no error
+	if (IsDataFileEmpty(file))
+	{
+		return true;
+	}
+	json j;
+	//parse error handling
 	try
 	{
-		file.open(m_path + "fe");
+		json j = json::parse(file);
 	}
-	catch (const std::ios_base::failure& exc)
+	catch (json::exception& exc)
 	{
-		AppMenu* appMenu = new AppStatusMenu(&Application::GetInstance(), AppStatusMenuLayoutBuilder::FatalError("FATAL_FILE_LOAD_ERROR", "FILE STREAM ERROR: " +
-			std::string(std::strerror(errno)) +
-			R"(
-			The program cannot continue running because the command save file is missing. 
-			Please make sure you haven't deleted the file while the program was running. 
-			You can resolve this issue by restarting the program.)" + "\nError code: " + std::to_string(errno)
-			
-			, [&]() { Application::GetInstance().FORCE_SHUTDOWN(); }));
+		
+		AppMenu* appMenu = new AppStatusMenu(&Application::GetInstance(), AppStatusMenuLayoutBuilder::Choose("JSON_PARSE_ERROR",
+			std::string("ERROR: " + std::string(exc.what())) + R"(
+		File could not be converted please make sure that you have not made any changes to the file.
+		Do you want to continue? (Your saved commands will not be listed and will be overwritten))"
+			, [&]() {Application::GetInstance().BreakCurrentLoop();  }, [&](){ Application::GetInstance().FORCE_SHUTDOWN(); }, Color::Red1));
 
 		appMenu->BuildAndRun();
 
@@ -74,14 +97,54 @@ bool CommandManager::LoadAllCommands()
 
 		return false;
 	}
-	json j = json::parse(file);
+
 	
+	//fill vector with all saved Commands
 	for (const auto& item : j)
 	{
 		m_v_commands.push_back(new Command(item.get<Command>()));
 	}
 
 	return true;
+}
+
+bool CommandManager::IsDataFileEmpty(std::ifstream& file) const
+{
+	file.seekg(0, std::ios_base::end);
+	std::streampos pos = file.tellg();
+	file.seekg(std::ios_base::beg);
+
+	return pos <= 0;
+}
+
+bool CommandManager::CreateDataFile()
+{
+	std::ofstream file; 
+	file.exceptions(std::ios_base::failbit | std::ios_base::badbit);
+	try 
+	{
+		file.open(m_path);
+		
+	}
+	//program cannot cannot create file... [ABORT]
+	catch(const std::ios_base::failure& exc)
+	{
+		AppMenu* appMenu = new AppStatusMenu(&Application::GetInstance(), AppStatusMenuLayoutBuilder::FatalError("CANNOT_CREATE_FILE",
+			std::string("ERROR: " + std::string(exc.what())) + std::string("\n") + strerror(errno) + "\n" +
+			R"(THE PROGRAM HAS NO RIGHTS OR CANNOT EASILY CREATE THE FILE)"
+			+ "\nPROGRAM CANNOT CONTINUE [ABORT]" + "\nERROR CODE: " + std::to_string(errno),
+			[&]() { Application::GetInstance().FORCE_SHUTDOWN(); }));
+		appMenu->BuildAndRun();
+
+		delete appMenu;
+		appMenu = nullptr;
+	
+		return false;
+	}
+
+	return true;
+
+
 }
 void CommandManager::Add(const std::string& cmdName,
 	const std::string& commandStr,
@@ -102,11 +165,29 @@ void CommandManager::Add(const std::string& cmdName,
 
 }
 
-void CommandManager::SaveAllCommands()
+bool CommandManager::SaveAllCommands()
 {
-	std::ofstream file(m_path);
+	std::ofstream file;
 	file.exceptions(std::ios_base::failbit | std::ios_base::badbit);
 
+	try
+	{
+		file.open("C:\\");
+	}
+	catch(const std::ios_base::failure& exc)
+	{
+		AppMenu* appMenu = new AppStatusMenu(&Application::GetInstance(), AppStatusMenuLayoutBuilder::Warning("CANNOT_SAVE_COMMANDS", 
+		std::string("ERROR: " + std::string(exc.what())) + R"(
+	program has no rights to write to the file)" + 
+			"\nERROR CODE: " + std::to_string(errno)
+			, [&]() { Application::GetInstance().BreakCurrentLoop(); }));
+		appMenu->BuildAndRun();
+
+		delete appMenu;
+		appMenu = nullptr;
+
+		return false;
+	}
 	
 	
 

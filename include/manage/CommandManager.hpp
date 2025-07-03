@@ -6,6 +6,8 @@
 
 class Command;
 
+constexpr const char* DEFAULT_DATA_FILE_NAME = "CMD_Data.json";
+
 class CommandManager
 {
 public:
@@ -21,7 +23,10 @@ public:
 
 private:
 	bool LoadAllCommands();
-	void SaveAllCommands();
+	bool SaveAllCommands();
+	//Command save list
+	bool CreateDataFile();
+	bool IsDataFileEmpty(std::ifstream& file) const;
 
 	std::vector<Command*> m_v_commands;
 
