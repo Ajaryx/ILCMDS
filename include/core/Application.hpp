@@ -9,13 +9,7 @@ class Application
 {
 public:
 	
-	
-
 	Application(const Application&) = delete;
-	Application(const Application&&) = delete;
-
-	Application& operator=(const Application&) = delete;
-	Application& operator=(Application&&) = delete;
 	
 	static Application& GetInstance()
 	{
@@ -23,10 +17,10 @@ public:
 		return instance;
 	}
 
-	void Run();
+	 void Run();
 
-	void drawUI(ftxui::Component& comp);
-	void BreakCurrentLoop();
+	 void drawUI(ftxui::Component& comp);
+	 void BreakCurrentLoop();
 
 	/*the entire app WILL be closed*/
 	void FORCE_SHUTDOWN();

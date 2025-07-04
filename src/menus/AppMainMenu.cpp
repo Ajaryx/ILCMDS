@@ -10,7 +10,7 @@
 
 using namespace ftxui;
 
-AppMainMenu::AppMainMenu(Application* const app) : AppMenu(app)
+AppMainMenu::AppMainMenu()
 {
 	
 }
@@ -26,7 +26,7 @@ void AppMainMenu::BuildAndRun()
 	Component container = Container::Vertical({ menu });
 
 
-	Component combinedLayout = Renderer(container, [&]()
+	combinedLayout = Renderer(container, [&]()
 		{
 			return vbox(
 				{
@@ -47,9 +47,8 @@ void AppMainMenu::BuildAndRun()
 				});
 		});
 
-	GetApplication()->drawUI(combinedLayout);
+	Application::GetInstance().drawUI(combinedLayout);
 }
-#include "menus/AppStatusMenu.hpp"
 Component AppMainMenu::CreateMenuLayout(Component& menu)
 {
 	auto entries = std::vector<std::string>({ "List Commands", "Add Commands", "Edit Commands", "[MORE OPTIONS WILL COME]"});
@@ -63,30 +62,30 @@ Component AppMainMenu::CreateMenuLayout(Component& menu)
 		{
 			if (evt == Event::Return)
 			{
-				
+
 				switch (m_MenuSelected)
 				{
 					//List Commands
 					case 0:
-
 					{
-						
+
 					}
-						break;
-						//Add Commands
+					break;
+					//Add Commands
 					case 1:
 					{
-						AppMenu* appMenu = new AppAddCommandMenu(GetApplication());
-						appMenu->BuildAndRun();
-						delete appMenu;
-						appMenu = nullptr;
-					}
+						std::unique_ptr<AppMenu> appMenu = std::make_unique<AppAddCommandMenu>();
 						
-						break;
-						//Edit Commands
-					case 2:
+						appMenu->BuildAndRun();
+						//activate the loop for this menu (Important) 
+						Application::GetInstance().drawUI(combinedLayout);
+						
+					}
+					break;
+							//Edit Commands
+						case 2:
 
-						break;
+							break;
 				}
 				
 

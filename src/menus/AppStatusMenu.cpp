@@ -4,7 +4,6 @@
 
 #include "PCH.hpp"
 #include "menus/AppStatusMenu.hpp"
-#include "core/Application.hpp"
 
 using namespace ftxui;
 
@@ -154,7 +153,7 @@ AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::Choose(const std::string&
 }
 /*-------------------------------------------*/
 
-AppStatusMenu::AppStatusMenu(Application* const app, const AppStatusMenuLayoutBuilder& layoutOption) : AppMenu(app)
+AppStatusMenu::AppStatusMenu(const AppStatusMenuLayoutBuilder& layoutOption)
 {
 	this->m_Option = layoutOption;
 }
@@ -164,5 +163,5 @@ AppStatusMenu::~AppStatusMenu()
 }
 void AppStatusMenu::BuildAndRun()
 {
-	GetApplication()->drawUI(m_Option.layout);
+	Application::GetInstance().drawUI(m_Option.layout);
 }

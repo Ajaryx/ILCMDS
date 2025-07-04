@@ -8,7 +8,7 @@
 
 using namespace ftxui;
 
-AppAddCommandMenu::AppAddCommandMenu(Application* const app) : AppMenu(app)
+AppAddCommandMenu::AppAddCommandMenu()
 {
 	cmdManager.Init();
 }
@@ -56,8 +56,7 @@ void AppAddCommandMenu::BuildAndRun()
 		});
 
 
-	GetApplication()->drawUI(combinedLayout);
-
+	Application::GetInstance().drawUI(combinedLayout);
 }
 ftxui::Component AppAddCommandMenu::BuildUserInputsLayout(
 	ftxui::Component& container,
@@ -207,15 +206,14 @@ void AppAddCommandMenu::MakeBtnOptions(ftxui::ButtonOption& confirmBtn, ftxui::B
 	confirmBtn.on_click = [&]() 
 	{
 		SetNewCommand();
+		
 	};
 
 	backBtn.on_click = [&]()
 	{
-		GetApplication()->BreakCurrentLoop();
+		Application::GetInstance().BreakCurrentLoop();
+		
 	};
-
-
-	//...
 
 }
 void AppAddCommandMenu::SetNewCommand()

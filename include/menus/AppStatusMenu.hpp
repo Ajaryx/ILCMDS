@@ -4,23 +4,23 @@
 
 #pragma once
 #include "menus/AppMenu.hpp"
-
+#include "core/Application.hpp"
 
 struct AppStatusMenuLayoutBuilder
 {
 	static AppStatusMenuLayoutBuilder Info(const std::string& headline,
 		const std::string& description,
-		std::function<void()> on_click = []() {  },
+		std::function<void()> on_click = []() { Application::GetInstance().BreakCurrentLoop(); },
 		ftxui::Color overallColor = ftxui::Color::White);
 
 	static AppStatusMenuLayoutBuilder Warning(const std::string& headline,
 		const std::string& description,
-		std::function<void()> on_click = []() {},
+		std::function<void()> on_click = []() {Application::GetInstance().BreakCurrentLoop(); },
 		ftxui::Color overallColor = ftxui::Color::Orange1);
 
 	static AppStatusMenuLayoutBuilder FatalError(const std::string& headline,
 		const std::string& overallColor,
-		std::function<void()> on_click = []() { },
+		std::function<void()> on_click = []() { Application::GetInstance().BreakCurrentLoop(); },
 		ftxui::Color descriptionColor = ftxui::Color::Red1);
 
 	static AppStatusMenuLayoutBuilder Choose(const std::string& headline,
@@ -43,7 +43,7 @@ struct AppStatusMenuLayoutBuilder
 class AppStatusMenu : public AppMenu
 {
 public:
-	AppStatusMenu(Application* const app, const AppStatusMenuLayoutBuilder& layoutOption);
+	AppStatusMenu(const AppStatusMenuLayoutBuilder& layoutOption);
 	~AppStatusMenu();
 
 

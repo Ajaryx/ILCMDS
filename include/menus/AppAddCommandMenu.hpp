@@ -9,9 +9,10 @@
 class AppAddCommandMenu : public AppMenu
 {
 public:
-	AppAddCommandMenu(class Application* const app);
+	AppAddCommandMenu();
 	~AppAddCommandMenu();
 private:
+	
 	CommandManager cmdManager;
 
 	// Inherited via AppMenu

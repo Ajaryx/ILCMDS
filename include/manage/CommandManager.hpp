@@ -16,7 +16,7 @@ public:
 
 	bool Init();
 
-	void Add(const std::string& cmdName,
+	bool Add(const std::string& cmdName,
 		const std::string& commandStr,
 		const std::string& type,
 		const std::string& description);

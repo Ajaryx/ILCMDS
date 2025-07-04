@@ -6,9 +6,9 @@
 #include "menus/AppMenu.hpp"
 #include "core/Application.hpp"
 
-AppMenu::AppMenu(Application* const app)
+AppMenu::AppMenu()
 {
-	this->m_app = app;
+	
 	
 }
 AppMenu::~AppMenu()

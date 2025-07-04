@@ -10,19 +10,13 @@ class AppMenu abstract
 {
 public:
 
-	AppMenu(Application* const app);
+	AppMenu();
 	virtual ~AppMenu();
 	virtual void BuildAndRun() = 0;
 
-protected:
-	
-	inline Application* const GetApplication()
-	{
-		return m_app;
-	}
 
 private:
 
-	 Application* m_app;
+	
 	
 };

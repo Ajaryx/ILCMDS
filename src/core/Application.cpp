@@ -13,7 +13,7 @@ Application::Application()
 }
 void Application::Run()
 {
-	AppMenu* menu = new AppMainMenu(this);
+	AppMenu* menu = new AppMainMenu();
 	menu->BuildAndRun();
 	delete menu;
 	menu = nullptr;

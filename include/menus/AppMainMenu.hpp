@@ -9,11 +9,12 @@
 class AppMainMenu : public AppMenu
 {
 public:
-	AppMainMenu(class Application* const app);
+	AppMainMenu();
 	~AppMainMenu();
 
 	
 private:
+	ftxui::Component combinedLayout;
 	void BuildAndRun() override;
 
 	//Creates a Menu and handle Menu Event
