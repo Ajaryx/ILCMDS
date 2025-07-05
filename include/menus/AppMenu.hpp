@@ -12,8 +12,14 @@ public:
 
 	AppMenu();
 	virtual ~AppMenu();
-	virtual void BuildAndRun() = 0;
+	virtual void Build() = 0;
+	inline ftxui::Component GetLayout() const
+	{
+		return MenuLayout;
+	}
 
+protected:
+	ftxui::Component MenuLayout;
 
 private:
 

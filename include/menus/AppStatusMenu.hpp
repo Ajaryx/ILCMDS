@@ -10,25 +10,25 @@ struct AppStatusMenuLayoutBuilder
 {
 	static AppStatusMenuLayoutBuilder Info(const std::string& headline,
 		const std::string& description,
-		std::function<void()> on_click = []() { Application::GetInstance().BreakCurrentLoop(); },
+		std::function<void()> on_click = []() { Application::GetInstance().SetAppState(EAppState::E_LAST); },
 		ftxui::Color overallColor = ftxui::Color::White);
 
 	static AppStatusMenuLayoutBuilder Warning(const std::string& headline,
 		const std::string& description,
-		std::function<void()> on_click = []() {Application::GetInstance().BreakCurrentLoop(); },
+		std::function<void()> on_click = []() {Application::GetInstance().SetAppState(EAppState::E_LAST); },
 		ftxui::Color overallColor = ftxui::Color::Orange1);
 
 	static AppStatusMenuLayoutBuilder FatalError(const std::string& headline,
-		const std::string& overallColor,
-		std::function<void()> on_click = []() { Application::GetInstance().BreakCurrentLoop(); },
-		ftxui::Color descriptionColor = ftxui::Color::Red1);
+		const std::string& description,
+		std::function<void()> on_click = []() { Application::GetInstance().SetAppState(EAppState::E_LAST); },
+		ftxui::Color overallColor = ftxui::Color::Red1);
 
 	static AppStatusMenuLayoutBuilder Choose(const std::string& headline,
-		const std::string& overallColor,
+		const std::string& description,
 		
 		std::function<void()> on_click_Yes,
 		std::function<void()> on_click_No,
-		ftxui::Color descriptiooverallColornColor = ftxui::Color::White);
+		ftxui::Color overallColor = ftxui::Color::White);
 
 	std::string headline;
 	std::string description;
@@ -43,13 +43,14 @@ struct AppStatusMenuLayoutBuilder
 class AppStatusMenu : public AppMenu
 {
 public:
+	AppStatusMenu() = default;
 	AppStatusMenu(const AppStatusMenuLayoutBuilder& layoutOption);
 	~AppStatusMenu();
 
 
 
 private:
-	void BuildAndRun() override;
+	void Build() override;
 
 	AppStatusMenuLayoutBuilder m_Option;
 

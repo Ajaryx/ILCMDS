@@ -36,9 +36,7 @@ static void from_json(const json& j, Command& command)
 
 CommandManager::CommandManager()
 {
-	
 	m_path = fs::path(fs::current_path() / DEFAULT_DATA_FILE_NAME).string();
-	
 }
 CommandManager::~CommandManager()
 {
@@ -55,14 +53,15 @@ bool CommandManager::LoadAllCommands()
 	//Create data file if not created	
 	if (!file)
 	{
-		std::unique_ptr<AppMenu> appMenu = std::make_unique<AppStatusMenu>(AppStatusMenuLayoutBuilder::Info("INFO", R"(It looks like you're running the program for the first time. 
+		Application::GetInstance().ShowStatusMenu(AppStatusMenuLayoutBuilder::Info("INFO", R"(It looks like you're running the program for the first time. 
 		The JSON data list is created for the commands. 
-		(NOTE: DO NOT DELETE THE FILE WHILE THE PROGRAM IS RUNNING, AND DO NOT OPEN THE FILE WHILE THE PROGRAM IS RUNNING.))" + std::string("\nPATH: " + m_path)
-		,[&]() { Application::GetInstance().BreakCurrentLoop(); }));
+		(NOTE: DO NOT DELETE THE FILE WHILE THE PROGRAM IS RUNNING, AND DO NOT OPEN THE FILE WHILE THE PROGRAM IS RUNNING.))" + std::string("\nPATH: " + m_path)));
 
-		appMenu->BuildAndRun();
+		
 		//nothing to read
-		return CreateDataFile();
+		CreateDataFile();
+
+		return false;
 	}
 	
 	
@@ -75,18 +74,18 @@ bool CommandManager::LoadAllCommands()
 	//parse error handling
 	try
 	{
-		json j = json::parse(file);
+		j = json::parse(file);
 	}
 	catch (json::exception& exc)
 	{
 		
-		std::unique_ptr<AppMenu> appMenu = std::make_unique<AppStatusMenu>(AppStatusMenuLayoutBuilder::Choose("JSON_PARSE_ERROR",
+		Application::GetInstance().ShowStatusMenu(AppStatusMenuLayoutBuilder::Choose("JSON_PARSE_ERROR",
 			std::string("ERROR: " + std::string(exc.what())) + R"(
 		File could not be converted please make sure that you have not made any changes to the file.
 		Do you want to continue? (Your saved commands will not be listed and will be overwritten))"
-			, [&]() {Application::GetInstance().BreakCurrentLoop();  }, [&](){ Application::GetInstance().FORCE_SHUTDOWN(); }, Color::Red1));
+			, [&]() { CreateDataFile(); Application::GetInstance().SetAppState(EAppState::E_LAST);  }, [&]() { Application::GetInstance().FORCE_SHUTDOWN(); }, Color::Red1));
 
-		appMenu->BuildAndRun();
+		
 
 		return false;
 	}
@@ -120,12 +119,12 @@ bool CommandManager::CreateDataFile()
 	//program cannot create file... [ABORT]
 	catch(const std::ios_base::failure& exc)
 	{
-		std::unique_ptr<AppMenu> appMenu = std::make_unique<AppStatusMenu>(AppStatusMenuLayoutBuilder::FatalError("CANNOT_CREATE_FILE",
+		Application::GetInstance().ShowStatusMenu(AppStatusMenuLayoutBuilder::FatalError("CANNOT_CREATE_FILE",
 			std::string("ERROR: " + std::string(exc.what())) + std::string("\n") + strerror(errno) + "\n" +
-			R"(THE PROGRAM HAS NO RIGHTS OR CANNOT EASILY CREATE THE FILE)" + "\nPATH: " + m_path
+			R"(THE PROGRAM HAS NO RIGHTS TO CREATE THE FILE!)" + "\nPATH: " + m_path
 			+ "\nPROGRAM CANNOT CONTINUE [ABORT]" + "\nERROR CODE: " + std::to_string(errno),
 			[&]() { Application::GetInstance().FORCE_SHUTDOWN(); }));
-		appMenu->BuildAndRun();
+		
 	
 		return false;
 	}
@@ -139,27 +138,26 @@ bool CommandManager::Add(const std::string& cmdName,
 	const std::string& type,
 	const std::string& description)
 {
-
+	//Checking for empty fields
 	if (cmdName.empty() ||
 		commandStr.empty() ||
 		type.empty() ||
 		description.empty())
 	{
-		std::unique_ptr<AppMenu> appMenu = std::make_unique<AppStatusMenu>(AppStatusMenuLayoutBuilder::Info("EMPTY_INPUT",
+		Application::GetInstance().ShowStatusMenu(AppStatusMenuLayoutBuilder::Info("EMPTY_INPUT",
 			R"(You have not filled out all the information required to create this command. 
 		Please make sure you have filled out everything and try again.)"));
-		appMenu->BuildAndRun();
+	
 
 		return false;
 	}
-	std::unique_ptr<AppMenu> appMenu = std::make_unique<AppStatusMenu>(AppStatusMenuLayoutBuilder::Info("EMPTY_INPUT",
-		"Command created successfully"));
-	appMenu->BuildAndRun();
 
 	m_v_commands.push_back(new Command(cmdName, commandStr, type, description));
 
-	SaveAllCommands();
-
+	if(SaveAllCommands())
+	Application::GetInstance().ShowStatusMenu(AppStatusMenuLayoutBuilder::Info("EMPTY_INPUT",
+		"Command created successfully"));
+	
 	return true;
 }
 
@@ -174,12 +172,11 @@ bool CommandManager::SaveAllCommands()
 	}
 	catch(const std::ios_base::failure& exc)
 	{
-		std::unique_ptr<AppMenu> appMenu = std::make_unique<AppStatusMenu>(AppStatusMenuLayoutBuilder::Warning("CANNOT_SAVE_COMMAND",
+		Application::GetInstance().ShowStatusMenu(AppStatusMenuLayoutBuilder::Warning("CANNOT_SAVE_COMMAND",
 		std::string("ERROR: " + std::string(exc.what())) + R"(
 		program has no rights to write to the file)" + "\nPATH: " + m_path + 
 			"\nERROR CODE: " + std::to_string(errno)));
-		appMenu->BuildAndRun();
-
+		
 
 		return false;
 	}

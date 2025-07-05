@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <fstream>
 #include <cerrno>
+#include <array>
 
 #include <ftxui/component/component.hpp>
 #include <ftxui/screen/screen.hpp>

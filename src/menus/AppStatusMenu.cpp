@@ -128,7 +128,7 @@ AppStatusMenuLayoutBuilder AppStatusMenuLayoutBuilder::Choose(const std::string&
 	builder.headline = headline;
 	builder.description = description;
 
-	Component btnCont = Container::Vertical({ btnYes, btnNo });
+	Component btnCont = Container::Vertical({ btnNo, btnYes });
 
 	builder.layout = Renderer(btnCont, [=]()
 		{
@@ -159,9 +159,9 @@ AppStatusMenu::AppStatusMenu(const AppStatusMenuLayoutBuilder& layoutOption)
 }
 AppStatusMenu::~AppStatusMenu()
 {
-
+	int a;
 }
-void AppStatusMenu::BuildAndRun()
+void AppStatusMenu::Build()
 {
-	Application::GetInstance().drawUI(m_Option.layout);
+	MenuLayout = m_Option.layout;
 }

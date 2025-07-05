@@ -14,9 +14,10 @@ public:
 private:
 	
 	CommandManager cmdManager;
+	
 
 	// Inherited via AppMenu
-	void BuildAndRun() override;
+	void Build() override;
 
 	//build CMD Name | CMD commandStr | CMD TYPE | CMD description -input bar
 	ftxui::Component BuildUserInputsLayout(

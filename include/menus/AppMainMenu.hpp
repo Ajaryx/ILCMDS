@@ -14,8 +14,9 @@ public:
 
 	
 private:
-	ftxui::Component combinedLayout;
-	void BuildAndRun() override;
+	
+	
+	void Build() override;
 
 	//Creates a Menu and handle Menu Event
 	ftxui::Component CreateMenuLayout(ftxui::Component& menu);

@@ -18,15 +18,14 @@ AppMainMenu::AppMainMenu()
 AppMainMenu::~AppMainMenu()
 {
 }
-void AppMainMenu::BuildAndRun()
+void AppMainMenu::Build()
 {
-	Component menu = Menu(std::vector<std::string>(), &m_MenuSelected);
+	Component menu;
 	Component menuComp = CreateMenuLayout(menu);
 
-	Component container = Container::Vertical({ menu });
+	Component container = Container::Vertical({ menuComp });
 
-
-	combinedLayout = Renderer(container, [&]()
+	MenuLayout = Renderer(container, [=]()
 		{
 			return vbox(
 				{
@@ -47,7 +46,6 @@ void AppMainMenu::BuildAndRun()
 				});
 		});
 
-	Application::GetInstance().drawUI(combinedLayout);
 }
 Component AppMainMenu::CreateMenuLayout(Component& menu)
 {
@@ -74,12 +72,7 @@ Component AppMainMenu::CreateMenuLayout(Component& menu)
 					//Add Commands
 					case 1:
 					{
-						std::unique_ptr<AppMenu> appMenu = std::make_unique<AppAddCommandMenu>();
-						
-						appMenu->BuildAndRun();
-						//activate the loop for this menu (Important) 
-						Application::GetInstance().drawUI(combinedLayout);
-						
+						Application::GetInstance().SetAppState(EAppState::E_ADD_COMMAND_MENU);
 					}
 					break;
 							//Edit Commands

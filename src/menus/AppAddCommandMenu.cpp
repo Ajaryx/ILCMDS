@@ -5,20 +5,23 @@
 #include "PCH.hpp"
 #include "menus/AppAddCommandMenu.hpp"
 #include "core/Application.hpp"
+#include "menus/AppStatusMenu.hpp"
 
 using namespace ftxui;
 
 AppAddCommandMenu::AppAddCommandMenu()
 {
-	cmdManager.Init();
+	
 }
 AppAddCommandMenu::~AppAddCommandMenu()
 {
 
 }
 
-void AppAddCommandMenu::BuildAndRun()
+void AppAddCommandMenu::Build()
 {
+	cmdManager.Init();
+	
 	//comp defines
 	Component inputContainer;
 	Component input_CMD_NameBar;
@@ -34,18 +37,15 @@ void AppAddCommandMenu::BuildAndRun()
 	Component inputBars = BuildUserInputsLayout(inputContainer, input_CMD_NameBar, input_CMD_StrBar, input_CMD_Bar, input_CMD_Desc_Bar);
 	Component buttons = BuildBottomBtnsLayout(btnContainer, confirmButton, backButton);
 
-	Component combinedContainer = Container::Vertical({ inputContainer, buttons });
+	Component combinedContainer = Container::Vertical({ inputContainer, btnContainer });
 
-	Component combinedLayout = Renderer(combinedContainer, [&]() 
+	MenuLayout = Renderer(combinedContainer, [=]()
 		{
 			return vbox({
 
-					vbox({text("Add Command Menu") | underlined | bold | border}) | hcenter ,
+					vbox({text("Add Command Menu") | underlined | bold | border}) | hcenter,
 
-				vbox({
-					inputBars->Render() | border,
-
-				}),
+				vbox({ inputBars->Render() }) | border,
 				separator(),
 				buttons->Render(),
 				
@@ -55,8 +55,8 @@ void AppAddCommandMenu::BuildAndRun()
 				});
 		});
 
-
-	Application::GetInstance().drawUI(combinedLayout);
+	
+	
 }
 ftxui::Component AppAddCommandMenu::BuildUserInputsLayout(
 	ftxui::Component& container,
@@ -86,7 +86,7 @@ ftxui::Component AppAddCommandMenu::BuildUserInputsLayout(
 
 	container = Container::Vertical({ NameBar, cmdStrBar, cmdType, cmdDescBar });
 
-	Component combinedInputLayout = Renderer(container, [&]()
+	Component combinedInputLayout = Renderer(container, [=]()
 		{
 			return vbox
 			({
@@ -182,7 +182,7 @@ ftxui::Component AppAddCommandMenu::BuildBottomBtnsLayout(ftxui::Component& cont
 
 	container = Container::Horizontal({ confirmBtn, backBtn });
 
-	Component combinedBtnLayout = Renderer(container, [&]() 
+	Component combinedBtnLayout = Renderer(container, [=]() 
 		{
 			return hbox({
 
@@ -205,14 +205,14 @@ void AppAddCommandMenu::MakeBtnOptions(ftxui::ButtonOption& confirmBtn, ftxui::B
 
 	confirmBtn.on_click = [&]() 
 	{
-		SetNewCommand();
-		
+			Application::GetInstance().ShowStatusMenu(AppStatusMenuLayoutBuilder::Choose("CHECK_COMMAND",
+				R"(Are you sure you want to save this command?: )", 
+				[&]() {SetNewCommand(); Application::GetInstance().SetAppState(EAppState::E_LAST); }, []() {Application::GetInstance().SetAppState(EAppState::E_LAST); }));
 	};
 
 	backBtn.on_click = [&]()
 	{
-		Application::GetInstance().BreakCurrentLoop();
-		
+		Application::GetInstance().SetAppState(EAppState::E_MAIN_MENU); 
 	};
 
 }

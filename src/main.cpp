@@ -8,6 +8,7 @@
 
 int main(int argc, char* argv[])
 {
+	Application::GetInstance().InitMenus();
 	Application::GetInstance().Run();
 	return 0;
 }

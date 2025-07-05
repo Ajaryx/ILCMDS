@@ -13,5 +13,5 @@ AppMenu::AppMenu()
 }
 AppMenu::~AppMenu()
 {
-
+	int a = 3;
 }
